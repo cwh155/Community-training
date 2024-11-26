@@ -1,0 +1,85 @@
+#include "ti_msp_dl_config.h"
+
+//几个GPIO小例程
+
+//1.点亮LED-根据LED正向导通的特性 PA0 板载灯
+//int main()
+//{
+//	SYSCFG_DL_init();//初始化
+//	DL_GPIO_clearPins(GPIO_LED_PORT,GPIO_LED_USER_LED_PIN);//根据原理图可以知道LED是低电平点亮
+//	//至于为什么是GPIO_LED_PORT和GPIO_LED_USER_LED_PIN 可以到ti_msp_dl_config.h中查看宏定义
+//	delay_cycles(64000000);//延时两秒种 单片机是32M主频
+//	//延时时间是通过循环产生的，计算方法是基于主频。
+//	//若时钟频率为 32MHz，那么每秒钟有 32,000,000 个时钟周期。因此，64000000 个周期相当于 2 秒
+//	DL_GPIO_togglePins(GPIO_LED_PORT,GPIO_LED_USER_LED_PIN);//电平翻转
+//}
+
+//这里可以补充讲一下快捷键 方便代码编写
+//有可能sysconfig不会更新配置过来 补充讲一下绝对路径与相对路径（blog）
+
+//2.点亮LED-外部的LED-高电平点亮（数字的世界里只用0 1电平） PA28
+//int main()
+//{
+//	SYSCFG_DL_init();//初始化
+//	DL_GPIO_setPins(GPIO_LED_PORT,GPIO_LED_TEST_LED_PIN);//根据原理图可以知道LED是低电平点亮
+//	//至于为什么是GPIO_LED_PORT和GPIO_LED_USER_LED_PIN 可以到ti_msp_dl_config.h中查看宏定义
+//	delay_cycles(64000000);//延时两秒种 单片机是32M主频
+//	//延时时间是通过循环产生的，计算方法是基于主频。
+//	//若时钟频率为 32MHz，那么每秒钟有 32,000,000 个时钟周期。因此，64000000 个周期相当于 2 秒
+//	DL_GPIO_togglePins(GPIO_LED_PORT,GPIO_LED_TEST_LED_PIN);//电平翻转
+//}
+
+//3.驱动蜂鸣器-我这个蜂鸣器是低电平触发
+//int main()
+//{
+//	SYSCFG_DL_init();//初始化
+//	DL_GPIO_clearPins(GPIO_BUZZER_PORT,GPIO_BUZZER_BUZZER_PIN );
+//	//至于为什么是GPIO_LED_PORT和GPIO_LED_USER_LED_PIN 可以到ti_msp_dl_config.h中查看宏定义
+//	delay_cycles(16000000);//延时两秒种 单片机是32M主频
+//	//延时时间是通过循环产生的，计算方法是基于主频。
+//	//若时钟频率为 32MHz，那么每秒钟有 16,000,000 个时钟周期。因此，16000000 个周期相当于 0.5 秒
+//	DL_GPIO_togglePins(GPIO_BUZZER_PORT,GPIO_BUZZER_BUZZER_PIN );//电平翻转
+//}
+
+//4.循迹模块
+//#define      Track1      DL_GPIO_readPins(Track_PORT,Track_Track_1_PIN) 
+//#define      Track2      DL_GPIO_readPins(Track_PORT,Track_Track_2_PIN)  
+//#define      Track3      DL_GPIO_readPins(Track_PORT,Track_Track_3_PIN)    
+//#define      Track4      DL_GPIO_readPins(Track_PORT,Track_Track_4_PIN) 
+
+//void Track()
+//{
+//	//亮是0 即Track1 Track2 Track3 Track4是0
+//    if (Track1 && !Track2 && !Track3 && Track4) { //中间两个亮 
+//		//Track1和Track4是不亮的，即1；中间两个是亮的，即0；  1&&!0&&!0&&1=1
+//        // 四个传感器都在黑线上，前进 这里只是起到一个效果 实际应用中把下面的部分换成前进的代码
+//		//实际上代码前进 左转 右转的代码不是这么写的 因为涉及到后面PWM的内容 以后再呈现
+//	DL_GPIO_clearPins(GPIO_LED_PORT,GPIO_LED_USER_LED_PIN);
+//	delay_cycles(64000000);
+//	DL_GPIO_togglePins(GPIO_LED_PORT,GPIO_LED_USER_LED_PIN);
+//    }
+//    else if (!(Track1 || Track2) && Track3 && Track4){//左边两个亮 !(0||0)&&1&&1=1       
+//        // 左侧在黑线，右侧偏离，左转
+//	DL_GPIO_setPins(GPIO_LED_PORT,GPIO_LED_TEST_LED_PIN);
+//	delay_cycles(64000000);
+//	DL_GPIO_togglePins(GPIO_LED_PORT,GPIO_LED_TEST_LED_PIN);
+//    }
+//    else if (Track1 && Track2 && !(Track3 || Track4)) {//右边两个亮 1&&1&&!(0||0)=1
+//        // 右侧在黑线，左侧偏离，右转
+//	DL_GPIO_clearPins(GPIO_BUZZER_PORT,GPIO_BUZZER_BUZZER_PIN );
+//	delay_cycles(16000000);
+//	DL_GPIO_togglePins(GPIO_BUZZER_PORT,GPIO_BUZZER_BUZZER_PIN );
+//    }
+//    else {
+//		//上面只写了三个 这个不写了 偷个懒>_<
+//    }
+//}
+
+//int main()
+//{
+//	SYSCFG_DL_init();
+//	while(1)
+//	{
+//		Track();
+//	}
+//}
